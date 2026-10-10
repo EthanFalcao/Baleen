@@ -1,0 +1,39 @@
+name: Daily Polymarket Pipeline
+
+on:
+  schedule:
+    # Runs at 06:00 UTC every day. GitHub Actions cron is ALWAYS in UTC,
+    # so adjust this if you want it to line up with a specific local time.
+    - cron: "0 6 * * *"
+  workflow_dispatch:  # lets you click "Run workflow" manually in the Actions tab to test
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    env:
+      # DB lives in Turso now (SQLite-compatible, hosted) — the old approach
+      # of committing polymarket.db back to the repo kept growing past
+      # GitHub's 100MB file size limit and started failing this workflow.
+      TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+      TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r src/requirements.txt
+
+      - name: Run main pipeline
+        working-directory: src
+        run: python main.py
+
+      - name: Run backtest
+        working-directory: src
+        run: python backtest.py

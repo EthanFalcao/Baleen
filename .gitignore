@@ -1,0 +1,14 @@
+.env
+__pycache__/
+.ipynb_checkpoints/
+.venv/*
+polymarket_env/
+
+# DB now lives in Turso (hosted, SQLite-compatible) instead of being
+# committed to git -- see config.py/db.py. The committed file kept growing
+# past GitHub's 100MB file size limit and started failing the daily pipeline.
+src/polymarket.db
+polymarket.db
+
+# local editor / Claude Code config (contains machine-specific paths)
+.claude/
