@@ -72,6 +72,10 @@ streamlit run dashboard.py
 
 The same two Turso values also need to be set as GitHub Actions secrets and as Streamlit Cloud secrets.
 
+## Why there's only one commit
+
+This project started in a different repo. Its history was mostly automated daily commits from the pipeline plus old copies of a large database file, so I moved the code into this new repo with a fresh history. The "Results so far" section above covers the bugs I found and fixed along the way.
+
 ## Data sources
 
 - [Polymarket Gamma API](https://gamma-api.polymarket.com): market info
